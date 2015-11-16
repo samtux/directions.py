@@ -176,7 +176,9 @@ class Mapquest(Router):
                 loc = m_in['startPoint']
                 m = Maneuver((loc['lng'], loc['lat']),
                              text=m_in['narrative'],
-                             icon=m_in['iconUrl']                             
+                             icon=m_in['iconUrl'],
+                             distance=m_in['distance'],
+                             time=m_in['time']
                              )
                 maneuvers.append(m)
         r = Route(coords, distance, duration, maneuvers=maneuvers)
