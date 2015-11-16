@@ -136,7 +136,7 @@ class Mapquest(Router):
         params = {
             'key': self.key,
             'inFormat': 'json',
-            'outFormat': 'json',
+            'outFormat': 'json'            
         }
 
         locations = self._format_waypoints(waypoints)
@@ -147,6 +147,8 @@ class Mapquest(Router):
                 'shapeFormat': 'cmp',
                 'generalize': 0,  # No simplification
                 'unit': 'k',
+                'locale': 'es',
+                'narrativeType': 'text'
             },
         }
         data = json.dumps(data, separators=(',', ':'))
@@ -173,7 +175,9 @@ class Mapquest(Router):
             for m_in in leg['maneuvers']:
                 loc = m_in['startPoint']
                 m = Maneuver((loc['lng'], loc['lat']),
-                             text=m_in['narrative'])
+                             text=m_in['narrative'],
+                             icon=m_in['iconUrl']                             
+                             )
                 maneuvers.append(m)
         r = Route(coords, distance, duration, maneuvers=maneuvers)
 
