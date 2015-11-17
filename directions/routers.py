@@ -168,6 +168,7 @@ class Mapquest(Router):
         latlons = polycomp.decompress(data['route']['shape']['shapePoints'])
         coords = [tuple(reversed(c)) for c in latlons]
         duration = data['route']['time']
+        formatedTime = data['route']['formattedTime']
         distance = data['route']['distance'] * 1000  # km to m
 
         maneuvers = []
@@ -175,13 +176,15 @@ class Mapquest(Router):
             for m_in in leg['maneuvers']:
                 loc = m_in['startPoint']
                 m = Maneuver((loc['lng'], loc['lat']),
+                             index=m_in['index'],
                              text=m_in['narrative'],
                              icon=m_in['iconUrl'],
                              distance=m_in['distance'],
-                             time=m_in['time']
+                             time=m_in['time'],
+                             formatedTime=m_in['formattedTime']
                              )
                 maneuvers.append(m)
-        r = Route(coords, distance, duration, maneuvers=maneuvers)
+        r = Route(coords, distance, duration, formatedTime, maneuvers=maneuvers)
 
         return [r]
 
