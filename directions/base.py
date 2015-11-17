@@ -140,7 +140,7 @@ def _waypoints(waypoints):
 
 
 class Route:
-    def __init__(self, coords, distance, duration, maneuvers=None, **kwargs):
+    def __init__(self, coords, distance, duration, formatedTime, maneuvers=None, **kwargs):
         """
         Simple class to represent a single returned route
 
@@ -155,6 +155,7 @@ class Route:
         self.coords = coords
         self.distance = distance
         self.duration = duration
+        self.formatedTime = formatedTime
         self.properties = kwargs.copy()
 
         if maneuvers is None:
@@ -166,8 +167,10 @@ class Route:
         geom = {'type': 'LineString',
                 'coordinates': self.coords}
         properties = self.properties.copy()
-        properties.update({'distance': self.distance,
-                           'duration': self.duration})
+        properties.update({'index': 0,
+                           'distance': self.distance,
+                           'duration': self.duration,
+                           'formatedTime': self.formatedTime})
 
         f = {'type': 'Feature',
              'geometry': geom,
@@ -183,7 +186,8 @@ class Route:
 
         properties = self.properties.copy()
         properties.update({'distance': self.distance,
-                           'duration': self.duration})
+                           'duration': self.duration,
+                           'formatedTime': self.formatedTime})
 
         return {'type': 'FeatureCollection',
                 'properties': properties,
